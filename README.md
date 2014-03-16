@@ -4,7 +4,7 @@ Events for modern browsers.
 
 ## Installation
 
-Kalas is available (as `kalas`) via [Bower](http://bower.io).
+Kalas is available (as `kalas`) via [Bower](http://bower.io), [Jam](http://jamjs.org), and [npm](http://npmjs.org). Kalas also works with [Ender](http://ender.var.require.io).
 
 ## Usage
 
