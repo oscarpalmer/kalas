@@ -2,9 +2,10 @@
   "description": "Events for modern browsers.",
   "ignore": [
     "LICENSE",
+    "package.json",
     "README.md"
   ],
   "main": "kalas.min.js",
   "name": "kalas",
-  "version": "0.1.0"
+  "version": "0.2.0"
 }

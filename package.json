@@ -1,0 +1,18 @@
+{
+  "author": "Oscar Palmér <opalmer@me.com> (http://opalmer.me)",
+  "description": "Events for modern browsers.",
+  "files": ["kalas.js", "kalas.min.js"],
+  "homepage": "http://git.io/kalas",
+  "jam": {
+    "main": "kalas.min.js"
+  },
+  "keywords": ["event", "events"],
+  "license": "MIT",
+  "main": "kalas.js",
+  "name": "kalas",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oscarpalmer/kalas.git"
+  },
+  "version": "0.2.0"
+}
