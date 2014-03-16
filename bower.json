@@ -1,0 +1,10 @@
+{
+  "description": "Events for modern browsers.",
+  "ignore": [
+    "LICENSE",
+    "README.md"
+  ],
+  "main": "kalas.min.js",
+  "name": "kalas",
+  "version": "0.1.0"
+}
