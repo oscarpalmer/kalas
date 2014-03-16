@@ -1,11 +1,12 @@
 {
   "description": "Events for modern browsers.",
   "ignore": [
+    "ender.js",
     "LICENSE",
     "package.json",
     "README.md"
   ],
   "main": "kalas.min.js",
   "name": "kalas",
-  "version": "0.2.0"
+  "version": "0.3.0"
 }
