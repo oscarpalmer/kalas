@@ -1,12 +1,13 @@
 {
   "description": "Events for modern browsers.",
   "ignore": [
-    "ender.js",
+    "src/ender.js",
+    "gulpfile.js",
     "LICENSE",
     "package.json",
     "README.md"
   ],
-  "main": "kalas.min.js",
+  "main": "dist/kalas.js",
   "name": "kalas",
-  "version": "0.3.1"
+  "version": "0.4.0"
 }
