@@ -10,24 +10,17 @@
   var
   win         = this,
   doc         = win.document,
-  addEvent    = "addEventListener",
-  remEvent    = "removeEventListener",
-  attEvent    = "attachEvent",
-  detEvent    = "detachEvent",
-  createEvent = "createEvent",
-  createEvObj = "createEventObject",
+  docElement  = doc.documentElement,
   mouseEvents = /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/,
-  onready     = "onreadystatechange",
-  readyCall   = "readyCallback",
   readyFuncs  = [],
-  domReady,
+  ready,
   Kalas;
 
   /**
    * preventDefault polyfill for IE.
    */
-  if (!Event.prototype.preventDefault) {
-    Event.prototype.preventDefault = function() {
+  if (!win.Event.prototype.preventDefault) {
+    win.Event.prototype.preventDefault = function() {
       this.returnValue = false;
     };
   }
@@ -35,131 +28,99 @@
   /**
    * stopPropagation polyfill for IE.
    */
-  if (!Event.prototype.stopPropagation) {
-    Event.prototype.stopPropagation = function() {
+  if (!win.Event.prototype.stopPropagation) {
+    win.Event.prototype.stopPropagation = function() {
       this.cancelBubble = true;
     };
   }
 
   /**
-   * Main event handler; delegates to eventOff and eventOn.
-   */
-  function eventHandler(node, type, fn, add) {
-    var
-    callback = add ? eventOn : eventOff,
-    index;
-
-    if (typeof type === "string") {
-      callback(node, type, fn);
-    } else if (type === Object(type)) {
-      for (index in type) {
-        if (type.hasOwnProperty(index)) {
-          callback(node, index, type[index]);
-        }
-      }
-    }
-  }
-
-  /**
-   * Remove an event from a node.
-   */
-  function eventOff(node, type, fn) {
-    if (node[remEvent]) {
-      node[remEvent](type, fn, false);
-    } else if (node[detEvent]) {
-      node[detEvent]("on" + type, node[type + fn]);
-
-      try {
-        delete node[type + fn];
-      } catch (error) {
-        node[type + fn] = undefined;
-      }
-    }
-  }
-
-  /**
-   * Add an event to a node.
-   */
-  function eventOn(node, type, fn) {
-    if (node[addEvent]) {
-      node[addEvent](type, fn, false);
-    } else if (node[attEvent]) {
-      var
-      event;
-
-      node[type + fn] = function() {
-        event = win.event;
-        event.target = event.target || event.srcElement;
-
-        if (fn.handleEvent) {
-          fn.handleEvent.call(node, event);
-        } else {
-          fn.call(node, event);
-        }
-      };
-
-      node[attEvent]("on" + type, node[type + fn]);
-    }
-  }
-
-  /**
    * Event handler for when the DOM is ready.
    */
-  domReady = (function(){
-    function domReady(fn) {
+  ready = (function(){
+    function ready(fn) {
       readyFuncs.push(fn);
 
-      Kalas.on(doc, "DOMContentLoaded", domReady[readyCall]);
-      Kalas.on(doc, onready, domReady[readyCall]);
-      Kalas.on(win, "load", domReady[readyCall]);
+      Kalas.on(doc, "DOMContentLoaded", Ready.readyCallback);
+      Kalas.on(doc, "onreadystatechange", Ready.readyCallback);
+      Kalas.on(win, "load", Ready.readyCallback);
     }
 
-    domReady.isReady = false;
+    ready.isReady = false;
 
-    domReady[readyCall] = function(event) {
+    ready.readyCallback = function(event) {
       var
       index,
       langd,
       node;
 
-      if (domReady.isReady || event.type === onready && doc.readyState !== "complete") {
+      if (ready.isReady || event.type === "onreadystatechange" && doc.onreadystatechange !== "complete") {
         return;
       }
 
-      domReady.isReady = true;
+      ready.isReady = true;
 
-      index = 0;
-      langd = readyFuncs.length;
       node  = event.type === "load" ? win : doc;
 
-      for (; index < langd; index++) {
+      for (index = 0, langd = readyFuncs.length; index < langd; index++) {
         readyFuncs[index].call(node, event);
       }
     };
 
-    return domReady;
+    return ready;
   }());
 
+  /**
+   * The Kalas object.
+   */
   Kalas = {
     /**
      * Remove an event from a node.
      */
-    off: function(node, name, fn) {
-      eventHandler(node, name, fn, false);
+    off: function(node, type, fn) {
+      if (docElement.removeEventListener) {
+        node.removeEventListener(type, fn, false);
+      } else if (docElement.detachEvent) {
+        node.detachEvent("on" + type, node[type + fn]);
+
+        try {
+          delete node[type + fn];
+        } catch (error) {
+          node[type + fn] = undefined;
+        }
+      }
     },
 
     /**
      * Add an event to a node.
      */
-    on: function(node, name, fn) {
-      eventHandler(node, name, fn, true);
+    on: function(node, type, fn) {
+      var
+      event;
+
+      if (docElement.addEventListener) {
+        node.addEventListener(type, fn, false);
+      } else if (docElement.attachEvent) {
+        node[type + fn] = function() {
+          event = win.event;
+          event.target = event.target || event.srcElement;
+
+          if (fn.handleEvent) {
+            fn.handleEvent.call(node, event);
+          } else {
+            fn.call(node, event);
+          }
+        };
+
+        node.attachEvent("on" + type, node[type + fn]);
+      }
     },
 
     /**
      * Add a function to run when the DOM is ready.
      */
     ready: function(fn) {
-      domReady(fn);
+      ready(fn);
     },
 
     /**
@@ -170,13 +131,13 @@
       event,
       type;
 
-      if (doc[createEvObj]) {
-        event = doc[createEvObj]();
+      if (doc.createEventObject) {
+        event = doc.createEventObject();
         node.fireEvent("on" + name, event);
       } else {
-        if (doc[createEvent]) {
+        if (doc.createEvent) {
           type  = mouseEvents.test(name) ? "MouseEvents" : "HTMLEvents";
-          event = doc[createEvent](type);
+          event = doc.createEvent(type);
           event.initEvent(name, true, true);
         } else {
           event = new Event(name);
