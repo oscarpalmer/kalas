@@ -41,9 +41,9 @@
     function ready(fn) {
       readyFuncs.push(fn);
 
-      Kalas.on(doc, "DOMContentLoaded", Ready.readyCallback);
-      Kalas.on(doc, "onreadystatechange", Ready.readyCallback);
-      Kalas.on(win, "load", Ready.readyCallback);
+      Kalas.on(doc, "DOMContentLoaded", ready.readyCallback);
+      Kalas.on(doc, "onreadystatechange", ready.readyCallback);
+      Kalas.on(win, "load", ready.readyCallback);
     }
 
     ready.isReady = false;
