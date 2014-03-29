@@ -2,10 +2,9 @@
   "author": "Oscar Palmér <opalmer@me.com> (http://opalmer.me)",
   "description": "Events for modern browsers.",
   "devDependencies": {
-    "gulp": "*",
-    "gulp-concat": "*",
-    "gulp-jshint": "*",
-    "gulp-uglify": "*"
+    "grunt": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-uglify": "*"
   },
   "ender": "src/ender.js",
   "files": ["dist/kalas.js", "src/ender.js", "src/kalas.js"],
@@ -15,11 +14,11 @@
   },
   "keywords": ["ender", "event", "events"],
   "license": "MIT",
-  "main": "src/kalas.js",
+  "main": "dist/kalas.js",
   "name": "kalas",
   "repository": {
     "type": "git",
     "url": "https://github.com/oscarpalmer/kalas.git"
   },
-  "version": "0.5.2"
+  "version": "0.5.3"
 }
