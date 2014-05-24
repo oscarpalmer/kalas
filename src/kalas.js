@@ -10,65 +10,9 @@
   var
   win         = this,
   doc         = win.document,
-  docElement  = doc.documentElement,
+  callbacks   = [],
   mouseEvents = /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/,
-  readyFuncs  = [],
-  ready,
   Kalas;
-
-  /**
-   * preventDefault polyfill for IE.
-   */
-  if (!win.Event.prototype.preventDefault) {
-    win.Event.prototype.preventDefault = function() {
-      this.returnValue = false;
-    };
-  }
-
-  /**
-   * stopPropagation polyfill for IE.
-   */
-  if (!win.Event.prototype.stopPropagation) {
-    win.Event.prototype.stopPropagation = function() {
-      this.cancelBubble = true;
-    };
-  }
-
-  /**
-   * Event handler for when the DOM is ready.
-   */
-  ready = (function(){
-    function ready(fn) {
-      readyFuncs.push(fn);
-
-      Kalas.on(doc, "DOMContentLoaded", ready.readyCallback);
-      Kalas.on(doc, "onreadystatechange", ready.readyCallback);
-      Kalas.on(win, "load", ready.readyCallback);
-    }
-
-    ready.isReady = false;
-
-    ready.readyCallback = function(event) {
-      var
-      index,
-      langd,
-      node;
-
-      if (ready.isReady || event.type === "onreadystatechange" && doc.onreadystatechange !== "complete") {
-        return;
-      }
-
-      ready.isReady = true;
-
-      node  = event.type === "load" ? win : doc;
-
-      for (index = 0, langd = readyFuncs.length; index < langd; index++) {
-        readyFuncs[index].call(node, event);
-      }
-    };
-
-    return ready;
-  }());
 
   /**
    * The Kalas object.
@@ -76,74 +20,63 @@
   Kalas = {
     /**
      * Remove an event from a node.
+     *
+     * @param {Element} node
+     * @param {String} type
+     * @param {Function} fn
      */
     off: function(node, type, fn) {
-      if (docElement.removeEventListener) {
+      if (doc.removeEventListener) {
         node.removeEventListener(type, fn, false);
-      } else if (docElement.detachEvent) {
-        node.detachEvent("on" + type, node[type + fn]);
-
-        try {
-          delete node[type + fn];
-        } catch (error) {
-          node[type + fn] = undefined;
-        }
+      } else if (doc.detachEvent) {
+        node.detachEvent("on" + type, fn);
       }
     },
 
     /**
      * Add an event to a node.
+     *
+     * @param {Element} node
+     * @param {String} type
+     * @param {Function} fn
      */
     on: function(node, type, fn) {
-      var
-      event;
-
-      if (docElement.addEventListener) {
+      if (doc.addEventListener) {
         node.addEventListener(type, fn, false);
-      } else if (docElement.attachEvent) {
-        node[type + fn] = function() {
-          event = win.event;
-          event.target = event.target || event.srcElement;
-
-          if (fn.handleEvent) {
-            fn.handleEvent.call(node, event);
-          } else {
-            fn.call(node, event);
-          }
-        };
-
-        node.attachEvent("on" + type, node[type + fn]);
+      } else if (doc.attachEvent) {
+        node.attachEvent("on" + type, fn);
       }
     },
 
     /**
      * Add a function to run when the DOM is ready.
+     *
+     * @param {Function} fn
      */
     ready: function(fn) {
-      ready(fn);
+      kalas.on(doc, "DOMContentLoaded", fn);
     },
 
     /**
      * Trigger an event for a node.
+     * @param {Element} node
+     * @param {String} type
      */
-    trigger: function(node, name) {
+    trigger: function(node, type) {
       var
-      event,
-      type;
+      event;
 
-      if (doc.createEventObject) {
-        event = doc.createEventObject();
-        node.fireEvent("on" + name, event);
-      } else {
-        if (doc.createEvent) {
-          type  = mouseEvents.test(name) ? "MouseEvents" : "HTMLEvents";
-          event = doc.createEvent(type);
-          event.initEvent(name, true, true);
-        } else {
-          event = new Event(name);
-        }
+      if (doc.dispatchEvent) {
+        event = mouseEvents.test(type) ? "MouseEvents" : "HTMLEvents";
+        event = doc.createEvent(event);
+
+        event.initEvent(type, true, true);
 
         node.dispatchEvent(event);
+      } else if (doc.fireEvent) {
+        event = doc.createEventOBject();
+
+        node.fireEvent("on" + type, event);
       }
     }
   };

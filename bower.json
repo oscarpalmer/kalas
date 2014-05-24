@@ -1,6 +1,7 @@
 {
   "description": "Events for modern browsers.",
   "ignore": [
+    "tests/",
     "src/ender.js",
     "gulpfile.js",
     "LICENSE",

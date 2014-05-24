@@ -2,7 +2,7 @@
 
 [![NPM version](https://badge.fury.io/js/kalas.png)](http://badge.fury.io/js/kalas)
 
-Events for modern browsers.
+Events for [modern browsers](#browser-support).
 
 ## Installation
 
@@ -20,11 +20,9 @@ kalas.ready(fn);           // Add a function to run when the DOM is ready.
 kalas.trigger(node, name); // Run the function for an event called 'name' on a node.
 ```
 
-## Todo
+## Browser support
 
-- Tests.
-- JSDoc.
-- Improved documentation.
+[![Testling](https://ci.testling.com/oscarpalmer/kalas.png)](https://ci.testling.com/oscarpalmer/kalas)
 
 ## License
 
