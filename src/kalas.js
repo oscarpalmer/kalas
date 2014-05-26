@@ -10,7 +10,6 @@
   var
   win         = this,
   doc         = win.document,
-  callbacks   = [],
   mouseEvents = /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/,
   Kalas;
 
@@ -25,12 +24,8 @@
      * @param {String} type
      * @param {Function} fn
      */
-    off: function(node, type, fn) {
-      if (doc.removeEventListener) {
-        node.removeEventListener(type, fn, false);
-      } else if (doc.detachEvent) {
-        node.detachEvent("on" + type, fn);
-      }
+    off: function(node, type, fn, capture) {
+      node.removeEventListener(type, fn, capture || false);
     },
 
     /**
@@ -40,12 +35,8 @@
      * @param {String} type
      * @param {Function} fn
      */
-    on: function(node, type, fn) {
-      if (doc.addEventListener) {
-        node.addEventListener(type, fn, false);
-      } else if (doc.attachEvent) {
-        node.attachEvent("on" + type, fn);
-      }
+    on: function(node, type, fn, capture) {
+      node.addEventListener(type, fn, capture || false);
     },
 
     /**
@@ -54,7 +45,7 @@
      * @param {Function} fn
      */
     ready: function(fn) {
-      kalas.on(doc, "DOMContentLoaded", fn);
+      this.on(doc, "DOMContentLoaded", fn);
     },
 
     /**
@@ -66,18 +57,11 @@
       var
       event;
 
-      if (doc.dispatchEvent) {
-        event = mouseEvents.test(type) ? "MouseEvents" : "HTMLEvents";
-        event = doc.createEvent(event);
+      event = doc.createEvent("HTMLEvents");
 
-        event.initEvent(type, true, true);
+      event.initEvent(type, true, true);
 
-        node.dispatchEvent(event);
-      } else if (doc.fireEvent) {
-        event = doc.createEventOBject();
-
-        node.fireEvent("on" + type, event);
-      }
+      node.dispatchEvent(event);
     }
   };
 

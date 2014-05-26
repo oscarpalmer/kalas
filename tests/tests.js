@@ -6,20 +6,30 @@ function equal(a, b) {
 }
 
 console.log("TAP version 13");
-console.log("1..2");
+console.log("1..3");
 
 kalas.ready(function() {
   var
-  ready = document.getElementById("ready"),
-  click = document.getElementById("click");
+  click  = document.getElementById("click"),
+  ready  = document.getElementById("ready"),
+  number = 0;
 
+  function callback() {
+    click.innerHTML = number;
+    number++;
+  }
+
+  // Test ready function
   ready.innerHTML = "ready";
   equal(ready.innerHTML, "ready");
 
-  kalas.on(click, "click", function() {
-    click.innerHTML = "clicked";
-  });
-
+  // Test on and click functions
+  kalas.on(click, "click", callback);
   kalas.trigger(click, "click");
-  equal(click.innerHTML, "clicked");
+  equal(click.innerHTML, "0");
+
+  // Test off function
+  kalas.off(click, "click", callback);
+  kalas.trigger(click, "click");
+  equal(click.innerHTML, "0");
 });
