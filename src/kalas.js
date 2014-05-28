@@ -8,9 +8,8 @@
   }
 })("kalas", this, function(){
   var
-  win         = this,
-  doc         = win.document,
-  mouseEvents = /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/,
+  win = this,
+  doc = win.document,
   Kalas;
 
   /**
