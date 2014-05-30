@@ -43,8 +43,8 @@
      *
      * @param {Function} fn
      */
-    ready: function(fn) {
-      this.on(doc, "DOMContentLoaded", fn);
+    ready: function(fn, capture) {
+      Kalas.on(doc, "DOMContentLoaded", fn, capture);
     },
 
     /**
