@@ -4,7 +4,8 @@
   "devDependencies": {
     "grunt": "*",
     "grunt-contrib-jshint": "*",
-    "grunt-contrib-uglify": "*"
+    "grunt-contrib-uglify": "*",
+    "tape": "~2.4.0"
   },
   "ender": "src/ender.js",
   "files": ["dist/kalas.js", "src/ender.js", "src/kalas.js"],
@@ -19,6 +20,19 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/oscarpalmer/kalas.git"
+  },
+  "testling": {
+    "browsers": [
+      "android-browser/4.2",
+      "chrome/20..latest",
+      "firefox/10..latest",
+      "ie/9..latest",
+      "ipad/6",
+      "iphone/6",
+      "opera/10..latest",
+      "safari/5.0.5..latest"
+    ],
+    "html": "tests/index.html"
   },
   "version": "0.5.3"
 }
