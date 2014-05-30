@@ -10,5 +10,5 @@
   ],
   "main": "dist/kalas.js",
   "name": "kalas",
-  "version": "0.5.3"
+  "version": "0.6.0"
 }
