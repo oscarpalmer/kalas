@@ -44,7 +44,7 @@
      * @param {Function} fn
      */
     ready: function(fn, capture) {
-      Kalas.on(doc, "DOMContentLoaded", fn, capture);
+      doc.addEventListener("DOMContentLoaded", fn, capture || false);
     },
 
     /**
