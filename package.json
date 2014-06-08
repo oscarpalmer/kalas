@@ -3,19 +3,20 @@
   "description": "Events for modern browsers.",
   "devDependencies": {
     "grunt": "*",
+    "grunt-contrib-coffee": "*",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-uglify": "*",
     "tape": "~2.4.0"
   },
-  "ender": "src/ender.js",
-  "files": ["dist/kalas.js", "src/ender.js", "src/kalas.js"],
+  "ender": "dist/ender.js",
+  "files": ["dist/kalas.min.js", "dist/ender.js"],
   "homepage": "http://git.io/kalas",
   "jam": {
-    "main": "dist/kalas.js"
+    "main": "dist/kalas.min.js"
   },
   "keywords": ["ender", "event", "events"],
   "license": "MIT",
-  "main": "dist/kalas.js",
+  "main": "dist/kalas.min.js",
   "name": "kalas",
   "repository": {
     "type": "git",
