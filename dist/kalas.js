@@ -1,1 +1,32 @@
-!function(a,b,c){"undefined"!=typeof module&&module.exports?module.exports=c():"function"==typeof define&&define.amd?define(c):b[a]=c()}("kalas",this,function(){var a,b=this,c=b.document;return a={off:function(a,b,c,d){a.removeEventListener(b,c,d||!1)},on:function(a,b,c,d){a.addEventListener(b,c,d||!1)},ready:function(a,b){c.addEventListener("DOMContentLoaded",a,b||!1)},trigger:function(a,b){var d;d=c.createEvent("HTMLEvents"),d.initEvent(b,!0,!0),a.dispatchEvent(d)}}});
+(function() {
+  var Kalas, doc;
+
+  doc = this.document;
+
+  Kalas = {
+    off: function(node, type, fn, capture) {
+      return node.removeEventListener(type, fn, capture || false);
+    },
+    on: function(node, type, fn, capture) {
+      return node.addEventListener(type, fn, capture || false);
+    },
+    ready: function(fn, capture) {
+      return doc.addEventListener("DOMContentLoaded", fn, capture || false);
+    },
+    trigger: function(node, type) {
+      var event;
+      event = doc.createEvent("Event");
+      event.initEvent(type, true, true);
+      return node.dispatchEvent(event);
+    }
+  };
+
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = Kalas;
+  } else if (typeof define === "function" && define.amd) {
+    define(Kalas);
+  } else {
+    this.kalas = Kalas;
+  }
+
+}).call(this);

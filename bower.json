@@ -8,7 +8,7 @@
     "package.json",
     "README.md"
   ],
-  "main": "dist/kalas.js",
+  "main": "dist/kalas.min.js",
   "name": "kalas",
   "version": "0.7.1"
 }
