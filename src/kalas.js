@@ -55,7 +55,7 @@
       var
       event;
 
-      event = doc.createEvent("HTMLEvents");
+      event = doc.createEvent("Event");
 
       event.initEvent(type, true, true);
 
