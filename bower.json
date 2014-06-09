@@ -3,12 +3,12 @@
   "ignore": [
     "tests/",
     "src/ender.js",
-    "gulpfile.js",
+    "Gruntfile.js",
     "LICENSE",
     "package.json",
     "README.md"
   ],
-  "main": "dist/kalas.min.js",
+  "main": "dist/kalas.js",
   "name": "kalas",
-  "version": "0.8.0"
+  "version": "0.9.0"
 }
