@@ -1,7 +1,6 @@
 {
   "description": "Events for modern browsers.",
   "ignore": [
-    "tests/",
     "src/ender.js",
     "Gruntfile.js",
     "LICENSE",
@@ -10,5 +9,5 @@
   ],
   "main": "dist/kalas.js",
   "name": "kalas",
-  "version": "0.9.1"
+  "version": "0.9.2"
 }

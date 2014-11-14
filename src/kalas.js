@@ -9,6 +9,7 @@
 })("kalas", this, function(){
   var
   doc = this.document,
+  event,
   Kalas;
 
   /**
@@ -52,9 +53,6 @@
      * @param {String} type
      */
     trigger: function(node, type) {
-      var
-      event;
-
       event = doc.createEvent("Event");
 
       event.initEvent(type, true, true);
