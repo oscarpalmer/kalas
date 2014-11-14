@@ -20,10 +20,6 @@ kalas.ready(fn);           // Add a function to run when the DOM is ready.
 kalas.trigger(node, name); // Run the function for an event called 'name' on a node.
 ```
 
-## Browser support
-
-[![Testling](https://ci.testling.com/oscarpalmer/kalas.png)](https://ci.testling.com/oscarpalmer/kalas)
-
 ## License
 
 MIT Licensed; see the [LICENSE file](LICENSE) for more info.
