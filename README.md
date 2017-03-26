@@ -2,7 +2,7 @@
 
 [![NPM version](https://badge.fury.io/js/kalas.png)](http://badge.fury.io/js/kalas)
 
-Events for [modern browsers](#browser-support).
+Kalas is no longer being developed or maintained.
 
 ## Installation
 
